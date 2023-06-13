@@ -1,2 +1,2 @@
 #!/bin/bash
-printf "%.2f" $NUM | sort
+perl -lne "print bestchol($ENV{WATER} + $ENV{STIR}, "n"
