@@ -12,6 +12,7 @@
 - [What is Docker and why is it popular?](https://intranet.alxswe.com/rltoken/56VrRmkBHFq2OKLM_FQA6w)
 - [Dictionary attack](https://intranet.alxswe.com/rltoken/dbAwbf71VVSCTOfeR1NRmg)
 - [Download the script user_authenticating_into_server](https://intranet.alxswe.com/rltoken/GE_FoAUArlVccQlt7CuBGA)
+- [Sendgrid offers](https://intranet.alxswe.com/rltoken/3QMTkzwhiBQgRSLVpKwAyw)
 
 ### man or help:
 - tcpdump
