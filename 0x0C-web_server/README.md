@@ -1,6 +1,7 @@
 # 0x0C-web_server
 
 ## Resources 
+- [Replace a line with multiple lines with sed](https://intranet.alxswe.com/rltoken/RRP9hX3MlQdABaKZD-Y_cA)
 - [ https://whois.whoisxmlapi.com/](https://whois.whoisxmlapi.com/)
 - [What is a Child Process?](https://intranet.alxswe.com/concepts/110)
 - [Holbert Web server Guide](https://www.youtube.com/watch?v=AZg4uJkEa-4)
