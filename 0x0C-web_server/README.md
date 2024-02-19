@@ -1,6 +1,7 @@
 # 0x0C-web_server
 
 ## Resources 
+- [ https://whois.whoisxmlapi.com/](https://whois.whoisxmlapi.com/)
 - [What is a Child Process?](https://intranet.alxswe.com/concepts/110)
 - [Holbert Web server Guide](https://www.youtube.com/watch?v=AZg4uJkEa-4)
 - [How the web works](https://intranet.alxswe.com/rltoken/6TI3HiyFdwrbXWKVF24Gxw)
