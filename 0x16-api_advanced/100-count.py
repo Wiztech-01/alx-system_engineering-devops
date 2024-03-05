@@ -1,50 +1,59 @@
 #!/usr/bin/python3
-""" Module for a function that queries the Reddit API recursively."""
-
+"""
+Recursive function that queries the Reddit API
+and prints a sorted count of given keywords
+"""
 
 import requests
 
 
-def count_words(subreddit, word_list, after='', word_dict={}):
-    """ A function that queries the Reddit API parses the title of
-    all hot articles, and prints a sorted count of given keywords
-    (case-insensitive, delimited by spaces.
-    Javascript should count as javascript, but java should not).
-    If no posts match or the subreddit is invalid, it prints nothing.
+def count_words(subreddit, word_list, after=None, count_dict=None):
     """
+    Recursive function to query the Reddit API, parse the title of hot articles, and print a sorted count of given keywords.
+    """
+    # Base case: subreddit is not valid
+    if not subreddit:
+        return
 
-    if not word_dict:
-        for word in word_list:
-            if word.lower() not in word_dict:
-                word_dict[word.lower()] = 0
+    # Initialize count_dict if not provided
+    if count_dict is None:
+        count_dict = {}
 
-    if after is None:
-        wordict = sorted(word_dict.items(), key=lambda x: (-x[1], x[0]))
-        for word in wordict:
-            if word[1]:
-                print('{}: {}'.format(word[0], word[1]))
-        return None
+    # Reddit API endpoint for fetching hot posts from a subreddit
+    reddit_api_url = 'https://www.reddit.com/r/{}/hot.json'.format(subreddit)
 
-    url = 'https://www.reddit.com/r/{}/hot/.json'.format(subreddit)
-    header = {'user-agent': 'redquery'}
-    parameters = {'limit': 100, 'after': after}
-    response = requests.get(url, headers=header, params=parameters,
-                            allow_redirects=False)
+    # Reddit API requires a User-Agent header to identify the client
+    headers = {'User-Agent': 'Reddit API Client'}
 
-    if response.status_code != 200:
-        return None
+    # Parameters for pagination
+    params = {'limit': 100}  # Fetch 100 posts per request
+    if after:
+        params['after'] = after
 
-    try:
-        hot = response.json()['data']['children']
-        aft = response.json()['data']['after']
-        for post in hot:
-            title = post['data']['title']
-            lower = [word.lower() for word in title.split(' ')]
+    # Sending HTTP GET request to the Reddit API
+    response = requests.get(reddit_api_url, headers=headers, params=params, allow_redirects=False)
 
-            for word in word_dict.keys():
-                word_dict[word] += lower.count(word)
+    # Checking if the request was successful
+    if response.status_code == 200:
+        # Parsing JSON response
+        data = response.json()
 
-    except Exception:
-        return None
+        # Extracting information from the response
+        if 'data' in data and 'children' in data['data']:
+            children = data['data']['children']
+            for child in children:
+                title = child['data']['title']
+                # Check for keywords in the title
+                for word in word_list:
+                    if word.lower() in title.lower():
+                        count_dict[word.lower()] = count_dict.get(word.lower(), 0) + 1
 
-    count_words(subreddit, word_list, aft, word_dict)
+            # Recursive call with the 'after' parameter for pagination
+            after = data['data']['after']
+            if after:
+                return count_words(subreddit, word_list, after, count_dict)
+            else:
+                # Sort and print the count of keywords
+                sorted_counts = sorted(count_dict.items(), key=lambda x: (-x[1], x[0]))
+                for word, count in sorted_counts:
+                    print(f"{word}: {count}")
